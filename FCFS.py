@@ -35,4 +35,7 @@ print("Turn Around time : ")
 print(taT)
 print("waiting time : ")
 print(waT)
-
+print("average waiting Time : ")
+print(round(sum(waT)/len(waT),3))
+print("average turn around  Time : ")
+print(round(sum(taT)/len(taT),3))
