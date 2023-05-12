@@ -43,13 +43,13 @@ int main()
  int n,i,m;
 
  printf("Total number of process : ");scanf("%d",&n);
- printf("Total number of resoucre : ");scanf("%d",&m);
+ printf("Total number of resource : ");scanf("%d",&m);
  for(int i=0;i<n;i++)
  {
     for(int j=0;j<m;j++)
     {
-        printf("process %d has resource %c : ",i+1,j+65);scanf("%d",&alloc[i][j]);
-        printf("process %d wants resource %c : ",i+1,j+65);scanf("%d",&req[i][j]);
+        printf("process %d allocated resource %c : ",i+1,j+65);scanf("%d",&alloc[i][j]);
+        printf("process %d claim(wants) resource %c : ",i+1,j+65);scanf("%d",&req[i][j]);
     }
  }
 
@@ -63,7 +63,7 @@ for(int i=0;i<n;i++)
         req[i][j]=req[i][j]-alloc[i][j];
     }
 }
- printf("hi");
+//  printf("hi");
  for(int i=0;i<m;i++)
  {
     remain[i]=total[i]-alloc[0][i];
@@ -74,6 +74,7 @@ for(int i=0;i<n;i++)
  }
 
 i=0;
+printf("Safe state sequence : ");
 while(checkallow(allow,n)==1)
 {
 
@@ -85,7 +86,7 @@ while(checkallow(allow,n)==1)
         {
             remain[j]=remain[j]+alloc[i][j];
         }
-        printf("p%d-->",i);
+        printf("p%d-->",i+1);
     }
     // printf("chck : %d\n",checkallow(allow,n));
     i++;
@@ -97,6 +98,6 @@ while(checkallow(allow,n)==1)
     }
 }
 for(int i=0;i<m;i++)
- {printf("%d ",remain[i]);}
+ {printf(" %d ",remain[i]);}
 //  checkarr(alloc[1],req[1],3);
 }
