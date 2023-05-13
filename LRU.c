@@ -1,119 +1,66 @@
-#include <stdio.h>
-#include <stdbool.h>
-void printa(int a[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        printf("%d ", a[i]);
-    }
-    printf("-");
-}
+#include<stdio.h>
 
-int inframe(int a[], int n, int v)
+int inframe(int f[], int n, int v)
 {
-    for (int i = 0; i < n; i++)
+    for(int i=0;i<n;i++)
     {
-        if (v == a[i])
-        {
+        if(f[i]==v)
             return 1;
-        }
     }
-    return 0;
+    return 0; 
 }
 
-int inframe1(int a[], int n, int v)
+int replace(int d[], int f[], int nf, int pos)
 {
-    for (int i = 0; i < n; i++)
+    int max[3]={0},ind;
+    for(int i=0;i<nf;i++)
     {
-        if (v == a[i])
+        for(int j=pos;j>=0;j--)
         {
-            return i;
+            if(d[j]==f[i] && (pos-j)>max[i])
+            {
+                max[i] = pos-j;
+                break;
+            }
         }
     }
+    int maxs=0;
+    for(int i=0;i<nf;i++)
+    {
+        if(max[i]>maxs){
+            ind =i;
+            maxs=max[i];}
+    }
+    return ind;
 }
 
-int notframe(int a[], int n)
+void main()
 {
-    for (int i = 0; i < n; i++)
+    int data[]={4 , 7, 6, 1, 7, 6, 1, 2, 7, 2};
+    int n =sizeof(data)/sizeof(data[0]);
+    int nf = 3;
+    int frame[100],j=0,hit=0;
+    for(int i=0;i<nf;i++)
+    {frame[i]=-1;}
+    
+    for(int i=0;i<n;i++)
     {
-        if (a[i] != 999)
-        {
-            return 1;
-        }
-    }
-}
-int replacee(int a[], int p[], int n, int f,int l)
-{
-    int rec[f], recv[f], j = 0, p1 = p[n - 1];
-    printf("recplace at %d", p1);
-    for (int i = 0; i < f; i++)
-    {
-        rec[i] = 999;
-        recv[i] = 999;
-    }
-    for (int i = n; i < l; i++)
-    {
-        if (inframe(a, 3, p[i]) == 1 && inframe(recv, f, p[i]) == 0 && p[i] != p1)
-        {
-            printf("in");
-            rec[j] = i-n;
-            
-            recv[j] = p[i];
-            j++;
-        }
-    }
-    int m = rec[0], pos;
-    for (int i = 0; i < f; i++)
-    {
-        if (rec[i] > m && rec[i] != 999)
-        {
-            m = i;
-            printf("  m: %d", i);
-        }
-    }
-    printf("\n\n");
-    printa(recv, f);
-    printa(rec, f);
-    printa(a, f);
-    printf("\nm:%d-m-1 :%d-infr%d\n", m, recv[m - 1], inframe1(a, f, recv[m]));
-
-    return inframe1(a, f, recv[m]);
-}
-
-void fifo(int p[], int n, int f)
-{
-    int q[n], r = -1, hit = 0, fr = -1;
-    int ff[f], c = 0;
-    for (int i = 0; i < f; i++)
-    {
-        ff[i] = 999;
-    }
-    int j = 0;
-    for (int i = 0; i < n; i++)
-    {
-        printf("\n");
-        if (ff[j] == 999)
-        {
-            ff[j] = p[i];
-            q[++r] = p[i];
-            j++;
-        }
-        else if (inframe(ff, f, p[i]) == 1)
+        if(inframe(frame,nf,data[i])==1)
         {
             hit++;
         }
+        else if(j<nf)
+        {
+            frame[j++]=data[i];
+        }
         else
         {
-            ff[replacee(ff, p, i, f, n)] = p[i];
+            frame[replace(data,frame,nf,i)]=data[i];
         }
-        printf("input %d : ", p[i]);
-        printa(ff, 3);
+        printf("%d -> ",data[i]);
+        for(int i=0;i<nf;i++)
+        {printf("%d ",frame[i]);}
+        printf("\n");
     }
-    printf("\nTotal hits : %d, Total faults : %d", hit, n - hit);
-}
-void main()
-{
-    int pageref[100] = {5, 0, 1, 2, 0, 3, 2, 0, 3, 4, 1, 0, 5, 0, 4, 3, 2, 1, 2, 0, 1};
-    int n = 21, fsize = 3;
-    fifo(pageref, n, fsize);
+    printf("\n hits are %d",hit);
 }
