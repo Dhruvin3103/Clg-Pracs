@@ -4,8 +4,12 @@ def crc(data, divisor):
     for i in range(len(data) - len(divisor) + 1):
         if data[i] == 1:
             for j in range(len(divisor)):
-                data[i + j+1] ^= divisor[j]
-    return ''.join([str(bit) for bit in data[-(len(divisor) - 1):]])
+                data[i + j + 1] ^= divisor[j]
+    mess = [str(bit) for bit in data[-(len(divisor) - 1):]]
+    crc = ""
+    for i in mess:
+        crc=crc+i
+    return crc
 
 def checkcrc(data,divisor):
     xordiv = crc(data,divisor)
@@ -36,5 +40,4 @@ while ch<3:
         
         
     
-
 
