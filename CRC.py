@@ -4,7 +4,7 @@ def crc(data, divisor):
     for i in range(len(data) - len(divisor) + 1):
         if data[i] == 1:
             for j in range(len(divisor)):
-                data[i + j + 1] ^= divisor[j]
+                data[i + j] ^= divisor[j]
     mess = [str(bit) for bit in data[-(len(divisor) - 1):]]
     crc = ""
     for i in mess:
